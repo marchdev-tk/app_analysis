@@ -3,3 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 library app_analysis;
+
+export 'src/collectors.dart';
+export 'src/models.dart' hide AnalysisExtremums, AnalysisData;
+export 'src/service.dart';
+export 'src/storages.dart';
