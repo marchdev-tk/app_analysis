@@ -1,6 +1,6 @@
-# flutter_package_template_example
+# app_analysis_example
 
-Demonstrates how to use the flutter_package_template package.
+Demonstrates how to use the app_analysis package.
 
 ## Usage
 

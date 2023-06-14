@@ -1,9 +1,9 @@
-name: flutter_package_template
+name: app_analysis
 version: 1.0.0
-homepage: https://github.com/marchdev-tk/flutter_package_template
-repository: https://github.com/marchdev-tk/flutter_package_template
-issue_tracker: https://github.com/marchdev-tk/flutter_package_template/issues
-description: flutter_package_template description
+homepage: https://github.com/marchdev-tk/app_analysis
+repository: https://github.com/marchdev-tk/app_analysis
+issue_tracker: https://github.com/marchdev-tk/app_analysis/issues
+description: app_analysis description
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -13,6 +13,13 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
+  
+  # core
+  cross_platform: ^3.0.1
+
+  # analysis
+  battery_info: ^1.1.1
+  cpu_reader: ^3.0.0
 
 dev_dependencies:
   flutter_test:

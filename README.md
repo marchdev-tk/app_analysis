@@ -1,9 +1,9 @@
-# flutter_package_template
+# app_analysis
 
-![Build](https://github.com/marchdev-tk/flutter_package_template/workflows/build/badge.svg)
-[![Pub](https://img.shields.io/pub/v/flutter_package_template.svg)](https://pub.dartlang.org/packages/flutter_package_template)
-![GitHub](https://img.shields.io/github/license/marchdev-tk/flutter_package_template)
-![GitHub stars](https://img.shields.io/github/stars/marchdev-tk/flutter_package_template?style=social)
+![Build](https://github.com/marchdev-tk/app_analysis/workflows/build/badge.svg)
+[![Pub](https://img.shields.io/pub/v/app_analysis.svg)](https://pub.dartlang.org/packages/app_analysis)
+![GitHub](https://img.shields.io/github/license/marchdev-tk/app_analysis)
+![GitHub stars](https://img.shields.io/github/stars/marchdev-tk/app_analysis?style=social)
 
 Package description
 
@@ -17,4 +17,4 @@ Add examples here
 
 ## Feature requests and Bug reports
 
-Feel free to post a feature requests or report a bug [here](https://github.com/marchdev-tk/flutter_package_template/issues).
+Feel free to post a feature requests or report a bug [here](https://github.com/marchdev-tk/app_analysis/issues).

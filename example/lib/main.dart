@@ -15,7 +15,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'flutter_package_template Demo',
+      title: 'app_analysis Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
