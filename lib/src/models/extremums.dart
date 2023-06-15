@@ -1,37 +1,61 @@
-import 'cpu_frequencies.dart';
+// Copyright (c) 2022, the MarchDev Toolkit project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
-class Extremum<T> {
-  const Extremum(this.min, this.max);
+import 'dart:convert';
 
-  final T min;
-  final T max;
-}
+import 'package:app_analysis/app_analysis.dart';
 
-abstract class AnalysisExtremumsInterface {
+abstract class AnalysisExtremumsInterface implements Encodable {
   const AnalysisExtremumsInterface._();
 
-  Extremum<double> get batteryTemperature;
-  Extremum<double> get batteryLevel;
+  Extremum<num> get batteryLevel;
+  Extremum<num> get batteryTemperature;
 
-  Extremum<double> get cpuTemperature;
-  Extremum<CpuFrequencies> get cpuFrequencies;
+  Extremum<CpuFrequency> get cpuFrequency;
+  Extremum<num> get cpuTemperature;
 }
 
 class AnalysisExtremums implements AnalysisExtremumsInterface {
   const AnalysisExtremums({
-    required this.batteryTemperature,
     required this.batteryLevel,
+    required this.batteryTemperature,
+    required this.cpuFrequency,
     required this.cpuTemperature,
-    required this.cpuFrequencies,
   });
 
-  @override
-  final Extremum<double> batteryTemperature;
-  @override
-  final Extremum<double> batteryLevel;
+  factory AnalysisExtremums.fromMap(Map<String, dynamic> map) {
+    return AnalysisExtremums(
+      batteryLevel: Extremum<num>.fromMap(map['batteryLevel']),
+      batteryTemperature: Extremum<num>.fromMap(map['batteryTemperature']),
+      cpuFrequency: Extremum<CpuFrequency>.fromMap(
+        map['cpuFrequency'],
+        (value) => CpuFrequency(value as List<num>),
+      ),
+      cpuTemperature: Extremum<num>.fromMap(map['cpuTemperature']),
+    );
+  }
 
   @override
-  final Extremum<double> cpuTemperature;
+  final Extremum<num> batteryLevel;
   @override
-  final Extremum<CpuFrequencies> cpuFrequencies;
+  final Extremum<num> batteryTemperature;
+
+  @override
+  final Extremum<CpuFrequency> cpuFrequency;
+  @override
+  final Extremum<num> cpuTemperature;
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'batteryLevel': batteryLevel.toMap(),
+      'batteryTemperature': batteryTemperature.toMap(),
+      'cpuFrequency': cpuFrequency.toMap(),
+      'cpuTemperature': cpuTemperature.toMap(),
+    };
+  }
+
+  @override
+  String toString() => json.encode(toMap());
 }

@@ -5,6 +5,7 @@
 library app_analysis;
 
 export 'src/collectors.dart';
-export 'src/models.dart' hide AnalysisExtremums, AnalysisData;
-export 'src/service.dart';
+export 'src/models.dart' hide AnalysisExtremums, AnalysisData, AnalysisInfo;
+export 'src/analyser.dart';
 export 'src/storages.dart';
+export 'src/utils.dart';
