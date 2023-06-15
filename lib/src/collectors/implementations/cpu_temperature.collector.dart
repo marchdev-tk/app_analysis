@@ -8,10 +8,14 @@ import 'package:app_analysis/app_analysis.dart';
 import 'package:cpu_reader/cpu_reader.dart';
 import 'package:cross_platform/cross_platform.dart';
 
+import '../collector.dart';
+
 const kUnknownCpuTemperature = -1;
 
 abstract class CpuTemperatureCollectorInterface
-    implements AnalysisCollectorInterface<num> {}
+    implements
+        AnalysisPeriodicalCollectorInterface<num>,
+        AnalysisCollectorWithExtremumsInterface<num> {}
 
 class CpuTemperatureCollector implements CpuTemperatureCollectorInterface {
   CpuTemperatureCollector();

@@ -11,7 +11,24 @@ abstract class AnalysisCollectorInterface<T> {
 
   Map<DateTime, T> get data;
   void clearData();
+}
+
+abstract class AnalysisCollectorWithExtremumsInterface<T> {
+  const AnalysisCollectorWithExtremumsInterface._();
+
+  Future<Extremum<T>> getExtremum();
+}
+
+abstract class AnalysisPeriodicalCollectorInterface<T>
+    implements AnalysisCollectorInterface<T> {
+  const AnalysisPeriodicalCollectorInterface._();
 
   Future<T> collect();
-  Future<Extremum<T>> getExtremum();
+}
+
+abstract class AnalysisOnDemandCollectorInterface<T, E>
+    implements AnalysisCollectorInterface<T> {
+  const AnalysisOnDemandCollectorInterface._();
+
+  Future<T> collect(E value);
 }

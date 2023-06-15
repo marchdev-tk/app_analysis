@@ -1,17 +1,23 @@
-import '../../models.dart';
 import '../collector.dart';
 
-class AnalysisTrafficConsumptionCollector implements AnalysisCollector<int> {
-  const AnalysisTrafficConsumptionCollector();
+abstract class TrafficConsumptionCollectorInterface
+    implements AnalysisOnDemandCollectorInterface<num, dynamic> {}
+
+class TrafficConsumptionCollector
+    implements TrafficConsumptionCollectorInterface {
+  TrafficConsumptionCollector();
+
+  final Map<DateTime, num> _data = {};
 
   @override
-  void collect(int data) {
-    // TODO
-  }
+  Map<DateTime, num> get data => Map.unmodifiable(_data);
 
   @override
-  Extremum<int> getExtremum() {
-    // TODO: implement getExtremum
+  void clearData() => _data.clear();
+
+  @override
+  Future<num> collect(dynamic value) async {
+    // TODO: implement collect
     throw UnimplementedError();
   }
 }

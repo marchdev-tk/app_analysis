@@ -8,10 +8,14 @@ import 'package:app_analysis/app_analysis.dart';
 import 'package:battery_info/battery_info_plugin.dart';
 import 'package:cross_platform/cross_platform.dart';
 
+import '../collector.dart';
+
 const kUnknownBatteryTemperature = -1;
 
 abstract class BatteryTemperatureCollectorInterface
-    implements AnalysisCollectorInterface<num> {}
+    implements
+        AnalysisPeriodicalCollectorInterface<num>,
+        AnalysisCollectorWithExtremumsInterface<num> {}
 
 class BatteryTemperatureCollector
     implements BatteryTemperatureCollectorInterface {

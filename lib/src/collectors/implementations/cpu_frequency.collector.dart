@@ -8,8 +8,12 @@ import 'package:app_analysis/app_analysis.dart';
 import 'package:cpu_reader/cpu_reader.dart';
 import 'package:cross_platform/cross_platform.dart';
 
+import '../collector.dart';
+
 abstract class CpuFrequencyCollectorInterface
-    implements AnalysisCollectorInterface<CpuFrequency> {}
+    implements
+        AnalysisPeriodicalCollectorInterface<CpuFrequency>,
+        AnalysisCollectorWithExtremumsInterface<CpuFrequency> {}
 
 class CpuFrequencyCollector implements CpuFrequencyCollectorInterface {
   CpuFrequencyCollector();
