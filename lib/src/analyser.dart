@@ -18,6 +18,7 @@ class AppAnalyser {
   late final BatteryTemperatureCollectorInterface _batteryTemperature;
   late final CpuFrequencyCollectorInterface _cpuFrequency;
   late final CpuTemperatureCollectorInterface _cpuTemperature;
+  late final TrafficConsumptionCollectorInterface _trafficConsumption;
   late final AnalysisStorageInterface _storage;
 
   AnalysisStoragePurgeInterface get storage => _storage;
@@ -33,6 +34,7 @@ class AppAnalyser {
     BatteryTemperatureCollectorInterface? batteryTemperature,
     CpuFrequencyCollectorInterface? cpuFrequency,
     CpuTemperatureCollectorInterface? cpuTemperature,
+    TrafficConsumptionCollectorInterface? trafficConsumption,
     AnalysisStorageInterface? storage,
   }) {
     if (_initialised) {
@@ -44,6 +46,8 @@ class AppAnalyser {
     _batteryTemperature = batteryTemperature ?? BatteryTemperatureCollector();
     _cpuFrequency = cpuFrequency ?? CpuFrequencyCollector();
     _cpuTemperature = cpuTemperature ?? CpuTemperatureCollector();
+    _trafficConsumption = trafficConsumption ??
+        TrafficConsumptionCollector<RawTrafficConsumptionAdapter>();
     _storage = storage ?? AnalysisMemoryStorage();
 
     _initialised = true;
@@ -72,7 +76,9 @@ class AppAnalyser {
     }
 
     _timer!.cancel();
+    _timer = null;
     _testDuration = DateTime.now().difference(_startTime!);
+    _startTime = null;
 
     final info = AnalysisInfo(
       testDuration: _testDuration!,
@@ -83,6 +89,14 @@ class AppAnalyser {
     _clearData();
 
     return info;
+  }
+
+  void collectTraffic(TrafficConsumptionAdapter adapter) {
+    if (_timer == null || _startTime == null) {
+      return;
+    }
+
+    _trafficConsumption.collect(adapter);
   }
 
   void _clearData() {
@@ -98,7 +112,7 @@ class AppAnalyser {
       batteryTemperature: _batteryTemperature.data,
       cpuFrequency: _cpuFrequency.data,
       cpuTemperature: _cpuTemperature.data,
-      trafficConsumption: {},
+      trafficConsumption: _trafficConsumption.data,
     );
   }
 
@@ -120,4 +134,3 @@ class AppAnalyser {
 
 // • Collector
 //   ○ RAM consumption (every 30 sec)
-//   ○ Network traffic consumption (per request)

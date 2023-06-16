@@ -1,10 +1,20 @@
+// Copyright (c) 2022, the MarchDev Toolkit project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import '../collector.dart';
 
-abstract class TrafficConsumptionCollectorInterface
-    implements AnalysisOnDemandCollectorInterface<num, dynamic> {}
+abstract class TrafficConsumptionAdapter<T> {
+  T get value;
+  int get contentLength;
+}
 
-class TrafficConsumptionCollector
-    implements TrafficConsumptionCollectorInterface {
+abstract class TrafficConsumptionCollectorInterface<
+        T extends TrafficConsumptionAdapter>
+    implements AnalysisOnDemandCollectorInterface<num, T> {}
+
+class TrafficConsumptionCollector<T extends TrafficConsumptionAdapter>
+    implements TrafficConsumptionCollectorInterface<T> {
   TrafficConsumptionCollector();
 
   final Map<DateTime, num> _data = {};
@@ -16,8 +26,5 @@ class TrafficConsumptionCollector
   void clearData() => _data.clear();
 
   @override
-  Future<num> collect(dynamic value) async {
-    // TODO: implement collect
-    throw UnimplementedError();
-  }
+  Future<num> collect(T value) async => value.contentLength;
 }

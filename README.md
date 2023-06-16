@@ -9,6 +9,8 @@ Package description
 
 ## Getting Started
 
+`ONLY ANDROID OS IS SUPPORTED!`
+
 Add intro here
 
 ## Examples
