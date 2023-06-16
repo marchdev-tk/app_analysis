@@ -23,8 +23,11 @@ class Extremum<T> implements Encodable {
   final T max;
 
   @override
-  Map<String, dynamic> toMap() {
-    return {'min': min, 'max': max};
+  Map<String, dynamic> toMap([dynamic Function(T value)? convert]) {
+    return {
+      'min': convert?.call(min) ?? min,
+      'max': convert?.call(max) ?? max,
+    };
   }
 
   @override

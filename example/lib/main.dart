@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:app_analysis/app_analysis.dart';
 
@@ -16,7 +18,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'app_analysis Demo',
+      title: 'AppAnalysis Example',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -35,6 +37,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   AnalysisInfoInterface? info;
 
+  String getInfoData() {
+    final raw = info?.toMap() ?? {};
+    const encoder = JsonEncoder.withIndent('  ');
+    return encoder.convert(raw);
+  }
+
   @override
   void initState() {
     AppAnalyser().initialise();
@@ -44,21 +52,36 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(
+        title: const Text('AppAnalysis Example'),
+      ),
+      body: ListView(
         children: [
-          ElevatedButton(
-            onPressed: () => AppAnalyser().start(),
-            child: const Text('Start Analysis'),
+          const SizedBox(height: 120),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButton(
+              onPressed: () => AppAnalyser().start(),
+              child: const Text('Start Analysis'),
+            ),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              info = await AppAnalyser().stop();
-              setState(() {});
-            },
-            child: const Text('Stop Analysis'),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButton(
+              onPressed: () async {
+                info = await AppAnalyser().stop();
+                setState(() {});
+              },
+              child: const Text('Stop Analysis'),
+            ),
           ),
-          Text(info?.testDuration.toString() ?? ''),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SelectableText(getInfoData()),
+          ),
+          const SizedBox(height: 120),
         ],
       ),
     );

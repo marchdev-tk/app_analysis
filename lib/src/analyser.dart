@@ -124,13 +124,15 @@ class AppAnalyser {
       _cpuTemperature.getExtremum(),
     ]);
     return AnalysisExtremums(
-      batteryLevel: results[0] as Extremum<int>,
-      batteryTemperature: results[1] as Extremum<int>,
+      batteryLevel: results[0] as Extremum<num>,
+      batteryTemperature: results[1] as Extremum<num>,
       cpuFrequency: results[2] as Extremum<CpuFrequency>,
-      cpuTemperature: results[3] as Extremum<double>,
+      cpuTemperature: results[3] as Extremum<num>,
     );
   }
 }
 
 // • Collector
 //   ○ RAM consumption (every 30 sec)
+//
+// Add measurement units to Data and Extremums

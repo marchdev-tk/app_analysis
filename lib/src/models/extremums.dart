@@ -51,7 +51,7 @@ class AnalysisExtremums implements AnalysisExtremumsInterface {
     return {
       'batteryLevel': batteryLevel.toMap(),
       'batteryTemperature': batteryTemperature.toMap(),
-      'cpuFrequency': cpuFrequency.toMap(),
+      'cpuFrequency': cpuFrequency.toMap((value) => value.frequencies),
       'cpuTemperature': cpuTemperature.toMap(),
     };
   }
