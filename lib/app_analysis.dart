@@ -4,6 +4,7 @@
 
 library app_analysis;
 
+export 'src/analyser.dart';
 export 'src/collectors.dart'
     hide
         AnalysisCollectorInterface,
@@ -11,6 +12,6 @@ export 'src/collectors.dart'
         AnalysisOnDemandCollectorInterface,
         AnalysisPeriodicalCollectorInterface;
 export 'src/models.dart' hide AnalysisExtremums, AnalysisData, AnalysisInfo;
-export 'src/analyser.dart';
+export 'src/providers.dart';
 export 'src/storages.dart';
 export 'src/utils.dart';

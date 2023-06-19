@@ -36,6 +36,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   AnalysisInfoInterface? info;
+  String? cpuInfo;
+  String? memInfo;
 
   String getInfoData() {
     final raw = info?.toMap() ?? {};
@@ -57,7 +59,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
-          const SizedBox(height: 120),
+          const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ElevatedButton(
@@ -81,7 +83,50 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SelectableText(getInfoData()),
           ),
-          const SizedBox(height: 120),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButton(
+              onPressed: () async {
+                cpuInfo = (await CpuInfoProvider().temperature).toString() +
+                    '\n\n' +
+                    (await CpuInfoProvider().currentFrequency).toString() +
+                    '\n\n' +
+                    (await CpuInfoProvider().extremumFrequency).toString();
+                setState(() {});
+              },
+              child: const Text('Get Cpu Info'),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SelectableText(cpuInfo ?? '-'),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButton(
+              onPressed: () async {
+                memInfo = 'Total: ' +
+                    (await RamInfoProvider().info).total.toString() +
+                    '\n' +
+                    'Free: ' +
+                    (await RamInfoProvider().info).free.toString() +
+                    '\n' +
+                    'Used: ' +
+                    (await RamInfoProvider().info).used.toString();
+                setState(() {});
+              },
+              child: const Text('Get Memory Info'),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SelectableText(memInfo ?? '-'),
+          ),
+          const SizedBox(height: 24),
         ],
       ),
     );

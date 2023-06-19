@@ -6,7 +6,6 @@ import 'dart:async';
 
 import 'package:app_analysis/app_analysis.dart';
 import 'package:battery_info/battery_info_plugin.dart';
-import 'package:cross_platform/cross_platform.dart';
 
 import '../collector.dart';
 
@@ -31,9 +30,7 @@ class BatteryTemperatureCollector
 
   @override
   Future<num> collect() async {
-    if (!Platform.isAndroid) {
-      throw OSNotSupportedError();
-    }
+    ensureOsSupported();
 
     final info = await BatteryInfoPlugin().androidBatteryInfo;
     final temperature = info?.temperature ?? kUnknownBatteryTemperature;

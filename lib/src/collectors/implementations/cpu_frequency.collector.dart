@@ -5,8 +5,6 @@
 import 'dart:async';
 
 import 'package:app_analysis/app_analysis.dart';
-import 'package:cpu_reader/cpu_reader.dart';
-import 'package:cross_platform/cross_platform.dart';
 
 import '../collector.dart';
 
@@ -28,14 +26,10 @@ class CpuFrequencyCollector implements CpuFrequencyCollectorInterface {
 
   @override
   Future<CpuFrequency> collect() async {
-    if (!Platform.isAndroid) {
-      throw OSNotSupportedError();
-    }
+    ensureOsSupported();
 
-    final info = await CpuReader.cpuInfo;
-    final freqsRaw = info.currentFrequencies?.values.toList();
-    final freqs =
-        freqsRaw == null ? CpuFrequency.empty : CpuFrequency(freqsRaw);
+    final info = await CpuInfoProvider().currentFrequency;
+    final freqs = CpuFrequency(info.values.toList());
     _data[DateTime.now().toUtc()] = freqs;
 
     return freqs;
@@ -43,19 +37,13 @@ class CpuFrequencyCollector implements CpuFrequencyCollectorInterface {
 
   @override
   Future<Extremum<CpuFrequency>> getExtremum() async {
-    if (!Platform.isAndroid) {
-      throw OSNotSupportedError();
-    }
+    ensureOsSupported();
 
-    final info = await CpuReader.cpuInfo;
+    final info = await CpuInfoProvider().extremumFrequency;
 
-    if (info.minMaxFrequencies == null) {
-      return const Extremum(CpuFrequency.empty, CpuFrequency.empty);
-    }
-
-    final mins = <int>[];
-    final maxs = <int>[];
-    for (var element in info.minMaxFrequencies!.values) {
+    final mins = <double>[];
+    final maxs = <double>[];
+    for (var element in info.values) {
       mins.add(element.min);
       maxs.add(element.max);
     }

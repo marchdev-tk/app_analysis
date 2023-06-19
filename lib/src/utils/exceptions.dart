@@ -24,3 +24,9 @@ class AnalyserAlreadyInitializedException implements Exception {
   @override
   String toString() => 'Analyser has already been initialised';
 }
+
+void ensureOsSupported() {
+  if (!Platform.isAndroid) {
+    throw OSNotSupportedError();
+  }
+}
