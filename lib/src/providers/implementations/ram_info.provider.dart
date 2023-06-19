@@ -31,8 +31,12 @@ class RamInfoAndroidProvider {
       final lines = await file.readAsLines();
 
       var total = -1;
-      var free = -1;
+      var available = -1;
       for (var line in lines) {
+        if (total > -1 && available > -1) {
+          break;
+        }
+
         if (line.contains('MemTotal')) {
           final rawTotal = line.split(':').last.trim();
           final parts = rawTotal.split(' ');
@@ -45,19 +49,22 @@ class RamInfoAndroidProvider {
           final parts = rawFree.split(' ');
           final freeUnmodified = int.parse(parts.first);
           final unitModifier = _parseUnit(parts.last);
-          free = (freeUnmodified * unitModifier).toInt();
+          available = (freeUnmodified * unitModifier).toInt();
         }
       }
 
       return RamInfo(
-        total: total,
-        used: total == -1 && free == -1 ? -1 : total - free,
-        free: free,
+        total: MemUnit(total),
+        used: total == -1 || available == -1
+            ? MemUnit.unknown
+            : MemUnit(total - available),
+        available: MemUnit(available),
       );
     } catch (e) {
-      return kUnknownRamInfo;
+      return RamInfo.unknown;
     }
   }
 
   Future<RamInfo> get info => _readInfo();
+  MemUnit get minAllowedRam => MemUnit.fromGB(1.5);
 }

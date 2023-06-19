@@ -12,8 +12,10 @@ abstract class AnalysisExtremumsInterface implements Encodable {
   Extremum<num> get batteryLevel;
   Extremum<num> get batteryTemperature;
 
-  Extremum<CpuFrequency> get cpuFrequency;
+  Extremum<List<num>> get cpuFrequency;
   Extremum<num> get cpuTemperature;
+
+  Extremum<MemUnit> get ramConsumption;
 }
 
 class AnalysisExtremums implements AnalysisExtremumsInterface {
@@ -22,17 +24,22 @@ class AnalysisExtremums implements AnalysisExtremumsInterface {
     required this.batteryTemperature,
     required this.cpuFrequency,
     required this.cpuTemperature,
+    required this.ramConsumption,
   });
 
   factory AnalysisExtremums.fromMap(Map<String, dynamic> map) {
     return AnalysisExtremums(
       batteryLevel: Extremum<num>.fromMap(map['batteryLevel']),
       batteryTemperature: Extremum<num>.fromMap(map['batteryTemperature']),
-      cpuFrequency: Extremum<CpuFrequency>.fromMap(
+      cpuFrequency: Extremum<List<num>>.fromMap(
         map['cpuFrequency'],
-        (value) => CpuFrequency(value as List<num>),
+        (value) => List<num>.from(value),
       ),
       cpuTemperature: Extremum<num>.fromMap(map['cpuTemperature']),
+      ramConsumption: Extremum<MemUnit>.fromMap(
+        map['ramConsumption'],
+        (value) => MemUnit(value),
+      ),
     );
   }
 
@@ -42,17 +49,21 @@ class AnalysisExtremums implements AnalysisExtremumsInterface {
   final Extremum<num> batteryTemperature;
 
   @override
-  final Extremum<CpuFrequency> cpuFrequency;
+  final Extremum<List<num>> cpuFrequency;
   @override
   final Extremum<num> cpuTemperature;
+
+  @override
+  final Extremum<MemUnit> ramConsumption;
 
   @override
   Map<String, dynamic> toMap() {
     return {
       'batteryLevel': batteryLevel.toMap(),
       'batteryTemperature': batteryTemperature.toMap(),
-      'cpuFrequency': cpuFrequency.toMap((value) => value.frequencies),
+      'cpuFrequency': cpuFrequency.toMap((value) => value),
       'cpuTemperature': cpuTemperature.toMap(),
+      'ramConsumption': ramConsumption.toMap((value) => value.bytes),
     };
   }
 

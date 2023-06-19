@@ -18,6 +18,7 @@ class AppAnalyser {
   late final BatteryTemperatureCollectorInterface _batteryTemperature;
   late final CpuFrequencyCollectorInterface _cpuFrequency;
   late final CpuTemperatureCollectorInterface _cpuTemperature;
+  late final RamConsumptionCollectorInterface _ramConsumption;
   late final TrafficConsumptionCollectorInterface _trafficConsumption;
   late final AnalysisStorageInterface _storage;
 
@@ -34,6 +35,7 @@ class AppAnalyser {
     BatteryTemperatureCollectorInterface? batteryTemperature,
     CpuFrequencyCollectorInterface? cpuFrequency,
     CpuTemperatureCollectorInterface? cpuTemperature,
+    RamConsumptionCollectorInterface? ramConsumption,
     TrafficConsumptionCollectorInterface? trafficConsumption,
     AnalysisStorageInterface? storage,
   }) {
@@ -46,6 +48,7 @@ class AppAnalyser {
     _batteryTemperature = batteryTemperature ?? BatteryTemperatureCollector();
     _cpuFrequency = cpuFrequency ?? CpuFrequencyCollector();
     _cpuTemperature = cpuTemperature ?? CpuTemperatureCollector();
+    _ramConsumption = ramConsumption ?? RamConsumptionCollector();
     _trafficConsumption = trafficConsumption ??
         TrafficConsumptionCollector<RawTrafficConsumptionAdapter>();
     _storage = storage ?? AnalysisMemoryStorage();
@@ -66,6 +69,7 @@ class AppAnalyser {
         _batteryTemperature.collect();
         _cpuFrequency.collect();
         _cpuTemperature.collect();
+        _ramConsumption.collect();
       },
     );
   }
@@ -84,8 +88,9 @@ class AppAnalyser {
       testDuration: _testDuration!,
       data: _getData(),
       extremums: await _getExtremums(),
+      units: _getUnits(),
     );
-    _storage.create(info);
+    await _storage.create(info);
     _clearData();
 
     return info;
@@ -104,6 +109,7 @@ class AppAnalyser {
     _batteryTemperature.clearData();
     _cpuFrequency.clearData();
     _cpuTemperature.clearData();
+    _ramConsumption.clearData();
   }
 
   AnalysisDataInterface _getData() {
@@ -112,6 +118,7 @@ class AppAnalyser {
       batteryTemperature: _batteryTemperature.data,
       cpuFrequency: _cpuFrequency.data,
       cpuTemperature: _cpuTemperature.data,
+      ramConsumption: _ramConsumption.data,
       trafficConsumption: _trafficConsumption.data,
     );
   }
@@ -122,17 +129,25 @@ class AppAnalyser {
       _batteryTemperature.getExtremum(),
       _cpuFrequency.getExtremum(),
       _cpuTemperature.getExtremum(),
+      _ramConsumption.getExtremum(),
     ]);
     return AnalysisExtremums(
       batteryLevel: results[0] as Extremum<num>,
       batteryTemperature: results[1] as Extremum<num>,
-      cpuFrequency: results[2] as Extremum<CpuFrequency>,
+      cpuFrequency: results[2] as Extremum<List<num>>,
       cpuTemperature: results[3] as Extremum<num>,
+      ramConsumption: results[4] as Extremum<MemUnit>,
+    );
+  }
+
+  AnalysisUnitsInterface _getUnits() {
+    return AnalysisUnits(
+      batteryLevel: _batteryLevel.measurementUnit,
+      batteryTemperature: _batteryTemperature.measurementUnit,
+      cpuFrequency: _cpuFrequency.measurementUnit,
+      cpuTemperature: _cpuTemperature.measurementUnit,
+      ramConsumption: _ramConsumption.measurementUnit,
+      trafficConsumption: _trafficConsumption.measurementUnit,
     );
   }
 }
-
-// • Collector
-//   ○ RAM consumption (every 30 sec)
-//
-// Add measurement units to Data and Extremums

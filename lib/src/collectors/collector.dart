@@ -11,6 +11,8 @@ abstract class AnalysisCollectorInterface<T> {
 
   Map<DateTime, T> get data;
   void clearData();
+
+  String get measurementUnit;
 }
 
 abstract class AnalysisCollectorWithExtremumsInterface<T> {

@@ -12,8 +12,10 @@ abstract class AnalysisDataInterface implements Encodable {
   Map<DateTime, num> get batteryLevel;
   Map<DateTime, num> get batteryTemperature;
 
-  Map<DateTime, CpuFrequency> get cpuFrequency;
+  Map<DateTime, List<num>> get cpuFrequency;
   Map<DateTime, num> get cpuTemperature;
+
+  Map<DateTime, RamInfo> get ramConsumption;
 
   Map<DateTime, num> get trafficConsumption;
 }
@@ -24,6 +26,7 @@ class AnalysisData implements AnalysisDataInterface {
     required this.batteryTemperature,
     required this.cpuFrequency,
     required this.cpuTemperature,
+    required this.ramConsumption,
     required this.trafficConsumption,
   });
 
@@ -32,8 +35,13 @@ class AnalysisData implements AnalysisDataInterface {
       batteryLevel: _parseMap(map['batteryLevel']),
       batteryTemperature: _parseMap(map['batteryTemperature']),
       cpuFrequency: Map<String, List<num>>.from(map['cpuFrequency']).map(
-          (key, value) => MapEntry(DateTime.parse(key), CpuFrequency(value))),
+        (key, value) => MapEntry(DateTime.parse(key), List.from(value)),
+      ),
       cpuTemperature: _parseMap(map['cpuTemperature']),
+      ramConsumption:
+          Map<String, Map<String, dynamic>>.from(map['ramConsumption']).map(
+        (key, value) => MapEntry(DateTime.parse(key), RamInfo.fromMap(value)),
+      ),
       trafficConsumption: _parseMap(map['trafficConsumption']),
     );
   }
@@ -48,6 +56,7 @@ class AnalysisData implements AnalysisDataInterface {
     batteryTemperature: {},
     cpuFrequency: {},
     cpuTemperature: {},
+    ramConsumption: {},
     trafficConsumption: {},
   );
 
@@ -57,9 +66,12 @@ class AnalysisData implements AnalysisDataInterface {
   final Map<DateTime, num> batteryTemperature;
 
   @override
-  final Map<DateTime, CpuFrequency> cpuFrequency;
+  final Map<DateTime, List<num>> cpuFrequency;
   @override
   final Map<DateTime, num> cpuTemperature;
+
+  @override
+  final Map<DateTime, RamInfo> ramConsumption;
 
   @override
   final Map<DateTime, num> trafficConsumption;
@@ -69,9 +81,11 @@ class AnalysisData implements AnalysisDataInterface {
     return {
       'batteryLevel': _toMap(batteryLevel),
       'batteryTemperature': _toMap(batteryTemperature),
-      'cpuFrequency': cpuFrequency.map(
-          (key, value) => MapEntry(key.toIso8601String(), value.frequencies)),
+      'cpuFrequency': cpuFrequency
+          .map((key, value) => MapEntry(key.toIso8601String(), value)),
       'cpuTemperature': _toMap(cpuTemperature),
+      'ramConsumption': ramConsumption
+          .map((key, value) => MapEntry(key.toIso8601String(), value.toMap())),
       'trafficConsumption': _toMap(trafficConsumption),
     };
   }

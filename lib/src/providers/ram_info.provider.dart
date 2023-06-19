@@ -6,12 +6,11 @@ import 'package:app_analysis/app_analysis.dart';
 
 import 'implementations/ram_info.provider.dart';
 
-const kUnknownRamInfo = RamInfo(total: -1, used: -1, free: -1);
-
 class RamInfoProvider {
   factory RamInfoProvider() => _instance;
   RamInfoProvider._();
   static final _instance = RamInfoProvider._();
 
   Future<RamInfo> get info => RamInfoAndroidProvider().info;
+  MemUnit get minAllowedRam => RamInfoAndroidProvider().minAllowedRam;
 }

@@ -2,16 +2,43 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-class RamInfo {
+import 'encodable.dart';
+import 'mem_unit.dart';
+
+class RamInfo implements Encodable {
   const RamInfo({
     required this.total,
     required this.used,
-    required this.free,
+    required this.available,
   });
 
-  final int total;
-  final int used;
-  final int free;
+  factory RamInfo.fromMap(Map<String, dynamic> map) {
+    return RamInfo(
+      total: map['total'],
+      used: map['used'],
+      available: map['available'],
+    );
+  }
 
-  // TODO: add toKB/toMB/toGB
+  static const unknown = RamInfo(
+    total: MemUnit.unknown,
+    used: MemUnit.unknown,
+    available: MemUnit.unknown,
+  );
+
+  final MemUnit total;
+  final MemUnit used;
+  final MemUnit available;
+
+  double get percentUsed => used.bytes / total.bytes;
+  double get percentAvailable => available.bytes / total.bytes;
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'total': total.bytes,
+      'used': used.bytes,
+      'available': available.bytes,
+    };
+  }
 }

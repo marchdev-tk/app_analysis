@@ -17,6 +17,7 @@ abstract class AnalysisInfoInterface implements Encodable {
   Duration get testDuration;
   AnalysisDataInterface get data;
   AnalysisExtremumsInterface get extremums;
+  AnalysisUnitsInterface get units;
 }
 
 class AnalysisInfo implements AnalysisInfoInterface {
@@ -24,6 +25,7 @@ class AnalysisInfo implements AnalysisInfoInterface {
     required Duration testDuration,
     required AnalysisDataInterface data,
     required AnalysisExtremumsInterface extremums,
+    required AnalysisUnitsInterface units,
   }) {
     return AnalysisInfo._(
       id: generateRandomId(),
@@ -31,6 +33,7 @@ class AnalysisInfo implements AnalysisInfoInterface {
       testDuration: testDuration,
       data: data,
       extremums: extremums,
+      units: units,
     );
   }
 
@@ -45,6 +48,7 @@ class AnalysisInfo implements AnalysisInfoInterface {
       testDuration: map['testDuration'],
       data: AnalysisData.fromMap(map['data']),
       extremums: AnalysisExtremums.fromMap(map['extremums']),
+      units: AnalysisUnits.fromMap(map['units']),
     );
   }
 
@@ -54,6 +58,7 @@ class AnalysisInfo implements AnalysisInfoInterface {
     required this.testDuration,
     required this.data,
     required this.extremums,
+    required this.units,
   });
 
   @override
@@ -66,6 +71,8 @@ class AnalysisInfo implements AnalysisInfoInterface {
   final AnalysisDataInterface data;
   @override
   final AnalysisExtremumsInterface extremums;
+  @override
+  final AnalysisUnitsInterface units;
 
   // TODO: add getters with interesting data based on results
 
@@ -77,6 +84,7 @@ class AnalysisInfo implements AnalysisInfoInterface {
       'testDuration': testDuration.inMilliseconds,
       'data': data.toMap(),
       'extremums': extremums.toMap(),
+      'units': units.toMap(),
     };
   }
 

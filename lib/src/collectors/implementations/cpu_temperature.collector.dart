@@ -26,8 +26,6 @@ class CpuTemperatureCollector implements CpuTemperatureCollectorInterface {
 
   @override
   Future<num> collect() async {
-    ensureOsSupported();
-
     final temperature = await CpuInfoProvider().averageTemperature;
     _data[DateTime.now().toUtc()] = temperature;
 
@@ -39,4 +37,7 @@ class CpuTemperatureCollector implements CpuTemperatureCollectorInterface {
   Future<Extremum<num>> getExtremum() async {
     return const Extremum(22, 65);
   }
+  
+  @override
+  String get measurementUnit => '°C';
 }

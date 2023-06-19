@@ -7,6 +7,7 @@ export 'collectors/implementations/battery_level.collector.dart';
 export 'collectors/implementations/battery_temperature.collector.dart';
 export 'collectors/implementations/cpu_frequency.collector.dart';
 export 'collectors/implementations/cpu_temperature.collector.dart';
+export 'collectors/implementations/ram_consumption.collector.dart';
 export 'collectors/implementations/traffic_consumption.collector.dart';
 export 'collectors/implementations/trafic_consumption/http_client.adapter.dart';
 export 'collectors/implementations/trafic_consumption/raw.adapter.dart';

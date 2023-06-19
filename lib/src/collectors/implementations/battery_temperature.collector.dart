@@ -44,4 +44,7 @@ class BatteryTemperatureCollector
   Future<Extremum<num>> getExtremum() async {
     return const Extremum(22, 50);
   }
+
+  @override
+  String get measurementUnit => '°C';
 }

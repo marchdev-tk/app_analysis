@@ -27,4 +27,7 @@ class TrafficConsumptionCollector<T extends TrafficConsumptionAdapter>
 
   @override
   Future<num> collect(T value) async => value.contentLength;
+
+  @override
+  String get measurementUnit => 'bytes';
 }

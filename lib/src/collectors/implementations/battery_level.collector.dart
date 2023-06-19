@@ -42,4 +42,7 @@ class BatteryLevelCollector implements BatteryLevelCollectorInterface {
   Future<Extremum<num>> getExtremum() async {
     return const Extremum(0, 100);
   }
+
+  @override
+  String get measurementUnit => '%';
 }

@@ -10,35 +10,31 @@ import '../collector.dart';
 
 abstract class CpuFrequencyCollectorInterface
     implements
-        AnalysisPeriodicalCollectorInterface<CpuFrequency>,
-        AnalysisCollectorWithExtremumsInterface<CpuFrequency> {}
+        AnalysisPeriodicalCollectorInterface<List<num>>,
+        AnalysisCollectorWithExtremumsInterface<List<num>> {}
 
 class CpuFrequencyCollector implements CpuFrequencyCollectorInterface {
   CpuFrequencyCollector();
 
-  final Map<DateTime, CpuFrequency> _data = {};
+  final Map<DateTime, List<num>> _data = {};
 
   @override
-  Map<DateTime, CpuFrequency> get data => Map.unmodifiable(_data);
+  Map<DateTime, List<num>> get data => Map.unmodifiable(_data);
 
   @override
   void clearData() => _data.clear();
 
   @override
-  Future<CpuFrequency> collect() async {
-    ensureOsSupported();
-
+  Future<List<num>> collect() async {
     final info = await CpuInfoProvider().currentFrequency;
-    final freqs = CpuFrequency(info.values.toList());
+    final freqs = info.values.toList();
     _data[DateTime.now().toUtc()] = freqs;
 
     return freqs;
   }
 
   @override
-  Future<Extremum<CpuFrequency>> getExtremum() async {
-    ensureOsSupported();
-
+  Future<Extremum<List<num>>> getExtremum() async {
     final info = await CpuInfoProvider().extremumFrequency;
 
     final mins = <double>[];
@@ -48,6 +44,9 @@ class CpuFrequencyCollector implements CpuFrequencyCollectorInterface {
       maxs.add(element.max);
     }
 
-    return Extremum(CpuFrequency(mins), CpuFrequency(maxs));
+    return Extremum(mins, maxs);
   }
+
+  @override
+  String get measurementUnit => 'Mhz';
 }
