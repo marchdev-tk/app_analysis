@@ -7,6 +7,21 @@ import 'dart:io';
 import 'package:app_analysis/app_analysis.dart';
 import 'package:flinq/flinq.dart';
 
+enum _SensorKind {
+  cpu('cpu'),
+  tsensTzSensor('tsens_tz_sensor'),
+  unknown('unknown');
+
+  const _SensorKind(this.kind);
+
+  factory _SensorKind.fromString(String value) {
+    return values.firstOrNullWhere((item) => value.contains(item.kind)) ??
+        unknown;
+  }
+
+  final String kind;
+}
+
 class CpuInfoAndroidProvider {
   factory CpuInfoAndroidProvider() => _instance;
   CpuInfoAndroidProvider._();
@@ -24,11 +39,14 @@ class CpuInfoAndroidProvider {
         ..sort((a, b) => a.path.compareTo(b.path));
 
       final cpuFiles = <String, String>{};
+      final cpuSensorKind = <String, _SensorKind>{};
       for (var file in files) {
         final typeFile = File('${file.path}/type');
-        final content = await typeFile.readAsString();
-        if (content.contains('cpu')) {
-          cpuFiles[content.trim()] = file.path;
+        final content = (await typeFile.readAsString()).trim();
+        final kind = _SensorKind.fromString(content);
+        if (kind != _SensorKind.unknown) {
+          cpuFiles[content] = file.path;
+          cpuSensorKind[content] = kind;
         }
       }
       files.clear();
@@ -36,8 +54,19 @@ class CpuInfoAndroidProvider {
       final cpuData = <String, double>{};
       for (var entry in cpuFiles.entries) {
         final tempFile = File('${entry.value}/temp');
-        final content = await tempFile.readAsString();
-        cpuData[entry.key] = double.parse(content) / 1000;
+        final content = (await tempFile.readAsString()).trim();
+
+        switch (cpuSensorKind[entry.key]) {
+          case _SensorKind.cpu:
+            cpuData[entry.key] = double.parse(content) / 1000;
+            break;
+          case _SensorKind.tsensTzSensor:
+            cpuData[entry.key] = double.parse(content);
+            break;
+
+          default:
+            cpuData[entry.key] = kUnknownCpuTemperature;
+        }
       }
       cpuFiles.clear();
 
@@ -57,10 +86,19 @@ class CpuInfoAndroidProvider {
 
       final cpuData = <int, double>{};
       for (var file in files) {
-        final freqFile = File('${file.path}/cpufreq/scaling_cur_freq');
-        final content = await freqFile.readAsString();
         final key = int.parse(file.path.split('/').last.replaceAll('cpu', ''));
-        cpuData[key] = double.parse(content) / 1000;
+        final freqDir = Directory('${file.path}/cpufreq');
+        if (await freqDir.exists()) {
+          final freqFile = File('${file.path}/cpufreq/scaling_cur_freq');
+          if (await freqFile.exists()) {
+            final content = await freqFile.readAsString();
+            cpuData[key] = double.parse(content) / 1000;
+          } else {
+            cpuData[key] = kUnknownCpuFrequency;
+          }
+        } else {
+          cpuData[key] = kUnknownCpuFrequency;
+        }
       }
       files.clear();
 
@@ -80,15 +118,24 @@ class CpuInfoAndroidProvider {
 
       final cpuData = <int, Extremum<double>>{};
       for (var file in files) {
-        final minFile = File('${file.path}/cpufreq/cpuinfo_min_freq');
-        final maxFile = File('${file.path}/cpufreq/cpuinfo_max_freq');
-        final minContent = await minFile.readAsString();
-        final maxContent = await maxFile.readAsString();
         final key = int.parse(file.path.split('/').last.replaceAll('cpu', ''));
-        cpuData[key] = Extremum(
-          double.parse(minContent) / 1000,
-          double.parse(maxContent) / 1000,
-        );
+        final freqDir = Directory('${file.path}/cpufreq');
+        if (await freqDir.exists()) {
+          final minFile = File('${file.path}/cpufreq/cpuinfo_min_freq');
+          final maxFile = File('${file.path}/cpufreq/cpuinfo_max_freq');
+          if (await minFile.exists() && await maxFile.exists()) {
+            final minContent = await minFile.readAsString();
+            final maxContent = await maxFile.readAsString();
+            cpuData[key] = Extremum(
+              double.parse(minContent) / 1000,
+              double.parse(maxContent) / 1000,
+            );
+          } else {
+            cpuData[key] = kUnknownCpuExtremumFrequency;
+          }
+        } else {
+          cpuData[key] = kUnknownCpuExtremumFrequency;
+        }
       }
       files.clear();
 
