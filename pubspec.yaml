@@ -3,7 +3,7 @@ version: 0.1.0
 homepage: https://github.com/marchdev-tk/app_analysis
 repository: https://github.com/marchdev-tk/app_analysis
 issue_tracker: https://github.com/marchdev-tk/app_analysis/issues
-description: app_analysis description
+description: Package that provides an ability to track device stats, including CPU/RAM/Battery/Traffic.
 
 environment:
   sdk: '>=2.18.6'
