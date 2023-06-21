@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+* Fixed yet another `AnalysisFileStorage` saving directory issue 
+
 ## 0.1.1
 
 * Fixed `AnalysisFileStorage` saving directory issue 
