@@ -14,9 +14,9 @@ class RamInfo implements Encodable {
 
   factory RamInfo.fromMap(Map<String, dynamic> map) {
     return RamInfo(
-      total: map['total'],
-      used: map['used'],
-      available: map['available'],
+      total: MemUnit(map['total']),
+      used: MemUnit(map['used']),
+      available: MemUnit(map['available']),
     );
   }
 

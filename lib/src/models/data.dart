@@ -34,8 +34,8 @@ class AnalysisData implements AnalysisDataInterface {
     return AnalysisData(
       batteryLevel: _parseMap(map['batteryLevel']),
       batteryTemperature: _parseMap(map['batteryTemperature']),
-      cpuFrequency: Map<String, List<num>>.from(map['cpuFrequency']).map(
-        (key, value) => MapEntry(DateTime.parse(key), List.from(value)),
+      cpuFrequency: Map<String, List<dynamic>>.from(map['cpuFrequency']).map(
+        (key, value) => MapEntry(DateTime.parse(key), List<num>.from(value)),
       ),
       cpuTemperature: _parseMap(map['cpuTemperature']),
       ramConsumption:
