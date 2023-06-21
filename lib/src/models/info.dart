@@ -44,7 +44,7 @@ class AnalysisInfo implements AnalysisInfoInterface {
   factory AnalysisInfo.fromMap(Map<String, dynamic> map) {
     return AnalysisInfo._(
       id: map['id'],
-      createdAt: map['createdAt'],
+      createdAt: DateTime.parse(map['createdAt']),
       testDuration: map['testDuration'],
       data: AnalysisData.fromMap(map['data']),
       extremums: AnalysisExtremums.fromMap(map['extremums']),
