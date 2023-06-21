@@ -17,8 +17,10 @@ class AnalysisFileStorage implements AnalysisStorageInterface {
   static const fileExtension = '.json';
 
   Future<Directory> get _workingDir async {
-    final dir = await getApplicationDocumentsDirectory();
-    return Directory('${dir.path}/analysis');
+    final coreDir = await getApplicationDocumentsDirectory();
+    final dir = Directory('${coreDir.path}/analysis');
+    await dir.create();
+    return dir;
   }
 
   @override
@@ -34,7 +36,7 @@ class AnalysisFileStorage implements AnalysisStorageInterface {
   @override
   Future<AnalysisInfoInterface?> read(String id) async {
     final dir = await _workingDir;
-    final file = File('${dir.path}$id$fileExtension');
+    final file = File('${dir.path}/$id$fileExtension');
     final content = await file.readAsString();
     return AnalysisInfo.fromJson(content);
   }
@@ -42,14 +44,14 @@ class AnalysisFileStorage implements AnalysisStorageInterface {
   @override
   Future<void> create(AnalysisInfoInterface info) async {
     final dir = await _workingDir;
-    final file = File('${dir.path}${info.id}$fileExtension');
+    final file = File('${dir.path}/${info.id}$fileExtension');
     await file.writeAsString(info.toString(), flush: true);
   }
 
   @override
   Future<void> delete(String id) async {
     final dir = await _workingDir;
-    final file = File('${dir.path}$id$fileExtension');
+    final file = File('${dir.path}/$id$fileExtension');
     await file.delete();
   }
 
