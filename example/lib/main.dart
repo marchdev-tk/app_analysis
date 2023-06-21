@@ -90,6 +90,8 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async {
                 cpuInfo = 'Temp: ' +
                     (await CpuInfoProvider().temperature).toString() +
+                    '\nAvg Temp: ' +
+                    (await CpuInfoProvider().averageTemperature).toString() +
                     '\nCurr Freq: ' +
                     (await CpuInfoProvider().currentFrequency).toString() +
                     '\nExtremum Freq: ' +

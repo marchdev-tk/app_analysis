@@ -17,6 +17,7 @@ dependencies:
   # core
   flinq: ^2.0.2
   cross_platform: ^3.0.1
+  path_provider: ^2.0.15
 
   # analysis
   battery_info: ^1.1.1

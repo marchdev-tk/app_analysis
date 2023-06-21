@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flinq/flinq.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../models.dart';
 import '../storage.dart';
@@ -15,12 +16,16 @@ class AnalysisFileStorage implements AnalysisStorageInterface {
 
   static const fileExtension = '.json';
 
-  Directory get _workingDir => Directory('${Directory.current.path}/analysis');
+  Future<Directory> get _workingDir async {
+    final dir = await getApplicationDocumentsDirectory();
+    return Directory('${dir.path}/analysis');
+  }
 
   @override
   Future<List<AnalysisInfoInterface>> readAll() async {
     final files = <FileSystemEntity>[];
-    await _workingDir.list().forEach(files.add);
+    final dir = await _workingDir;
+    await dir.list().forEach(files.add);
     final contents =
         await Future.wait(files.map((f) => File(f.path).readAsString()));
     return contents.mapList(AnalysisInfo.fromJson);
@@ -28,23 +33,29 @@ class AnalysisFileStorage implements AnalysisStorageInterface {
 
   @override
   Future<AnalysisInfoInterface?> read(String id) async {
-    final file = File('${_workingDir.path}$id$fileExtension');
+    final dir = await _workingDir;
+    final file = File('${dir.path}$id$fileExtension');
     final content = await file.readAsString();
     return AnalysisInfo.fromJson(content);
   }
 
   @override
   Future<void> create(AnalysisInfoInterface info) async {
-    final file = File('${_workingDir.path}${info.id}$fileExtension');
+    final dir = await _workingDir;
+    final file = File('${dir.path}${info.id}$fileExtension');
     await file.writeAsString(info.toString(), flush: true);
   }
 
   @override
   Future<void> delete(String id) async {
-    final file = File('${_workingDir.path}$id$fileExtension');
+    final dir = await _workingDir;
+    final file = File('${dir.path}$id$fileExtension');
     await file.delete();
   }
 
   @override
-  Future<void> deleteAll() async => _workingDir.delete(recursive: true);
+  Future<void> deleteAll() async {
+    final dir = await _workingDir;
+    await dir.delete(recursive: true);
+  }
 }
