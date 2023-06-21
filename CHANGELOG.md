@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+* Fixed parsing issue of `AnalysisInfo` model
+
 ## 0.1.2
 
 * Fixed yet another `AnalysisFileStorage` saving directory issue 
