@@ -45,7 +45,7 @@ class AnalysisInfo implements AnalysisInfoInterface {
     return AnalysisInfo._(
       id: map['id'],
       createdAt: DateTime.parse(map['createdAt']),
-      testDuration: map['testDuration'],
+      testDuration: Duration(milliseconds: map['testDuration']),
       data: AnalysisData.fromMap(map['data']),
       extremums: AnalysisExtremums.fromMap(map['extremums']),
       units: AnalysisUnits.fromMap(map['units']),
