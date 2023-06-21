@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+* Fixed yet another parsing issue of `AnalysisInfo` model
+
 ## 0.1.3
 
 * Fixed parsing issue of `AnalysisInfo` model
