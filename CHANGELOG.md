@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0
+
+* Added ability to receive collected data on a go via callback `AppAnalysis.onDataCollected`
+* Added data collection as soon as collection starts
+* Reimplemented `AppAnalysis.start` to return `Future<AnalysisInfoInterface>` instead of void, and it will contain all available at that moment data whereas `AppAnalysis.stop` will return finalised data
+* Renamed `MemUnit.inKB` to `MemUnit.inKiB`, `MemUnit.inMB` to `MemUnit.inMiB` and `MemUnit.inGB` to `MemUnit.inGiB`
+* Added new getters `MemUnit.inKB`, `MemUnit.inMB` and `MemUnit.inGB`
+* Added new `MemVolUnit` which represents different measurement units of a memory volumes
+* Changed `AnalysisUnitsInterface` and collectors to use `MemVolUnit` instead of a plain `String`
+
 ## 0.1.5
 
 * Fixed parsing issue of `AnalysisData` model and `RamInfo` model
