@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.2.1
+
+* Changed for `TrafficConsumptionCollectorInterface` collectable type from `num` to `MemUnit`
+
 ## 0.2.0
 
 * Added ability to receive collected data on a go via callback `AppAnalysis.onDataCollected`
