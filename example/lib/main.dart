@@ -88,14 +88,11 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ElevatedButton(
               onPressed: () async {
-                cpuInfo = 'Temp: ' +
-                    (await CpuInfoProvider().temperature).toString() +
-                    '\nAvg Temp: ' +
-                    (await CpuInfoProvider().averageTemperature).toString() +
-                    '\nCurr Freq: ' +
-                    (await CpuInfoProvider().currentFrequency).toString() +
-                    '\nExtremum Freq: ' +
-                    (await CpuInfoProvider().extremumFrequency).toString();
+                final provider = CpuInfoProvider();
+                cpuInfo = 'Temp: ${await provider.temperature}\n'
+                    'Avg Temp: ${await provider.averageTemperature}\n'
+                    'Curr Freq: ${await provider.currentFrequency}\n'
+                    'Extremum Freq: ${await provider.extremumFrequency}';
                 setState(() {});
               },
               child: const Text('Get Cpu Info'),
@@ -112,12 +109,9 @@ class _HomePageState extends State<HomePage> {
             child: ElevatedButton(
               onPressed: () async {
                 final info = await RamInfoProvider().info;
-                memInfo = 'Total: ' +
-                    info.total.inMB.toInt().toString() +
-                    '\nFree: ' +
-                    info.available.inMB.toInt().toString() +
-                    '\nUsed: ' +
-                    info.used.inMB.toInt().toString();
+                memInfo = 'Total: ${info.total.inMiB.toInt()}\n'
+                    'Free: ${info.available.inMiB.toInt()}\n'
+                    'Used: ${info.used.inMiB.toInt()}';
                 setState(() {});
               },
               child: const Text('Get Memory Info'),

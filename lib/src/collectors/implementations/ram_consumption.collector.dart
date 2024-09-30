@@ -10,7 +10,7 @@ import '../collector.dart';
 
 abstract class RamConsumptionCollectorInterface
     implements
-        AnalysisPeriodicalCollectorInterface<RamInfo>,
+        AnalysisPeriodicalCollectorInterface<RamInfo, MemVolUnit>,
         AnalysisCollectorWithExtremumsInterface<MemUnit> {}
 
 class RamConsumptionCollector implements RamConsumptionCollectorInterface {
@@ -42,5 +42,5 @@ class RamConsumptionCollector implements RamConsumptionCollectorInterface {
   }
 
   @override
-  String get measurementUnit => 'bytes';
+  MemVolUnit get measurementUnit => MemVolUnit();
 }

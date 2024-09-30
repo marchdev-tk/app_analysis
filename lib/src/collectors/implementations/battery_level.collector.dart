@@ -13,7 +13,7 @@ const kUnknownBatteryLevel = -1;
 
 abstract class BatteryLevelCollectorInterface
     implements
-        AnalysisPeriodicalCollectorInterface<num>,
+        AnalysisPeriodicalCollectorInterface<num, String>,
         AnalysisCollectorWithExtremumsInterface<num> {}
 
 class BatteryLevelCollector implements BatteryLevelCollectorInterface {

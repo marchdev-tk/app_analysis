@@ -7,12 +7,14 @@ import 'dart:async';
 import 'package:app_analysis/app_analysis.dart';
 
 import 'models.dart';
+import 'utils.dart';
 
 class AppAnalyser {
   factory AppAnalyser() => _instance;
   AppAnalyser._();
   static final _instance = AppAnalyser._();
 
+  late final ValueChanged<AnalysisDataInterface>? _onDataCollected;
   late final Duration measurementFrequency;
   late final BatteryLevelCollectorInterface _batteryLevel;
   late final BatteryTemperatureCollectorInterface _batteryTemperature;
@@ -26,10 +28,11 @@ class AppAnalyser {
 
   bool _initialised = false;
   Timer? _timer;
-  DateTime? _startTime;
-  Duration? _testDuration;
+  DateTime? _startedAt;
+  AnalysisInfo? _info;
 
   void initialise({
+    ValueChanged<AnalysisDataInterface>? onDataCollected,
     Duration measurementFrequency = const Duration(seconds: 5),
     BatteryLevelCollectorInterface? batteryLevel,
     BatteryTemperatureCollectorInterface? batteryTemperature,
@@ -43,6 +46,7 @@ class AppAnalyser {
       throw AnalyserAlreadyInitializedException();
     }
 
+    _onDataCollected = onDataCollected;
     this.measurementFrequency = measurementFrequency;
     _batteryLevel = batteryLevel ?? BatteryLevelCollector();
     _batteryTemperature = batteryTemperature ?? BatteryTemperatureCollector();
@@ -56,52 +60,61 @@ class AppAnalyser {
     _initialised = true;
   }
 
-  void start() {
-    if (_timer != null || _startTime != null) {
+  Future<AnalysisInfoInterface> start() async {
+    if (_timer != null || _startedAt != null) {
       throw AnalysisInProgressException();
     }
 
-    _startTime = DateTime.now();
+    _startedAt = DateTime.now();
+    _collectData();
     _timer = Timer.periodic(
       measurementFrequency,
-      (_) {
-        _batteryLevel.collect();
-        _batteryTemperature.collect();
-        _cpuFrequency.collect();
-        _cpuTemperature.collect();
-        _ramConsumption.collect();
-      },
+      (_) => _collectData(),
+    );
+
+    final extremums = await _getExtremums();
+
+    return _info = AnalysisInfo(
+      startedAt: _startedAt!,
+      data: _getData(),
+      extremums: extremums,
+      units: _getUnits(),
     );
   }
 
   Future<AnalysisInfoInterface> stop() async {
-    if (_timer == null || _startTime == null) {
+    if (_timer == null || _startedAt == null) {
       throw AnalysisNotStartedException();
     }
 
     _timer!.cancel();
     _timer = null;
-    _testDuration = DateTime.now().difference(_startTime!);
-    _startTime = null;
+    _startedAt = null;
 
-    final info = AnalysisInfo(
-      testDuration: _testDuration!,
-      data: _getData(),
-      extremums: await _getExtremums(),
-      units: _getUnits(),
-    );
+    final info = _info!.collectionEnded(DateTime.now(), _getData());
     await _storage.create(info);
+    _info = null;
     _clearData();
 
     return info;
   }
 
   void collectTraffic(TrafficConsumptionAdapter adapter) {
-    if (_timer == null || _startTime == null) {
+    if (_timer == null || _startedAt == null) {
       return;
     }
 
     _trafficConsumption.collect(adapter);
+  }
+
+  void _collectData() {
+    _batteryLevel.collect();
+    _batteryTemperature.collect();
+    _cpuFrequency.collect();
+    _cpuTemperature.collect();
+    _ramConsumption.collect();
+
+    _onDataCollected?.call(_getData());
   }
 
   void _clearData() {

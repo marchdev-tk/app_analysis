@@ -2,6 +2,5 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'utils/delegates.dart';
-export 'utils/exceptions.dart';
-export 'utils/id.generator.dart';
+/// Signature for callbacks that report that an underlying value has changed.
+typedef ValueChanged<T> = void Function(T value);

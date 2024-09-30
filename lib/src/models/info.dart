@@ -13,7 +13,8 @@ abstract class AnalysisInfoInterface implements Encodable {
   const AnalysisInfoInterface._();
 
   String get id;
-  DateTime get createdAt;
+  DateTime get startedAt;
+  DateTime? get endedAt;
   Duration get testDuration;
   AnalysisDataInterface get data;
   AnalysisExtremumsInterface get extremums;
@@ -22,15 +23,15 @@ abstract class AnalysisInfoInterface implements Encodable {
 
 class AnalysisInfo implements AnalysisInfoInterface {
   factory AnalysisInfo({
-    required Duration testDuration,
+    required DateTime startedAt,
     required AnalysisDataInterface data,
     required AnalysisExtremumsInterface extremums,
     required AnalysisUnitsInterface units,
   }) {
     return AnalysisInfo._(
       id: generateRandomId(),
-      createdAt: DateTime.now().toUtc(),
-      testDuration: testDuration,
+      startedAt: startedAt.toUtc(),
+      endedAt: null,
       data: data,
       extremums: extremums,
       units: units,
@@ -44,8 +45,8 @@ class AnalysisInfo implements AnalysisInfoInterface {
   factory AnalysisInfo.fromMap(Map<String, dynamic> map) {
     return AnalysisInfo._(
       id: map['id'],
-      createdAt: DateTime.parse(map['createdAt']),
-      testDuration: Duration(milliseconds: map['testDuration']),
+      startedAt: DateTime.parse(map['startedAt']),
+      endedAt: DateTime.tryParse(map['endedAt'] ?? ''),
       data: AnalysisData.fromMap(map['data']),
       extremums: AnalysisExtremums.fromMap(map['extremums']),
       units: AnalysisUnits.fromMap(map['units']),
@@ -54,8 +55,8 @@ class AnalysisInfo implements AnalysisInfoInterface {
 
   const AnalysisInfo._({
     required this.id,
-    required this.createdAt,
-    required this.testDuration,
+    required this.startedAt,
+    required this.endedAt,
     required this.data,
     required this.extremums,
     required this.units,
@@ -64,9 +65,9 @@ class AnalysisInfo implements AnalysisInfoInterface {
   @override
   final String id;
   @override
-  final DateTime createdAt;
+  final DateTime startedAt;
   @override
-  final Duration testDuration;
+  final DateTime? endedAt;
   @override
   final AnalysisDataInterface data;
   @override
@@ -74,14 +75,29 @@ class AnalysisInfo implements AnalysisInfoInterface {
   @override
   final AnalysisUnitsInterface units;
 
+  @override
+  Duration get testDuration =>
+      (endedAt ?? DateTime.now().toUtc()).difference(startedAt);
+
   // TODO: add getters with interesting data based on results
+
+  AnalysisInfo collectionEnded(DateTime at, AnalysisDataInterface data) {
+    return AnalysisInfo._(
+      id: id,
+      startedAt: startedAt,
+      endedAt: at.toUtc(),
+      data: data,
+      extremums: extremums,
+      units: units,
+    );
+  }
 
   @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'createdAt': createdAt.toIso8601String(),
-      'testDuration': testDuration.inMilliseconds,
+      'startedAt': startedAt.toIso8601String(),
+      'endedAt': endedAt?.toIso8601String(),
       'data': data.toMap(),
       'extremums': extremums.toMap(),
       'units': units.toMap(),

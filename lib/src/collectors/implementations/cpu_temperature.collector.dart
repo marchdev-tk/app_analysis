@@ -10,7 +10,7 @@ import '../collector.dart';
 
 abstract class CpuTemperatureCollectorInterface
     implements
-        AnalysisPeriodicalCollectorInterface<num>,
+        AnalysisPeriodicalCollectorInterface<num, String>,
         AnalysisCollectorWithExtremumsInterface<num> {}
 
 class CpuTemperatureCollector implements CpuTemperatureCollectorInterface {

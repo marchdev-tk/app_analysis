@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:app_analysis/app_analysis.dart';
+
 import '../collector.dart';
 
 abstract class TrafficConsumptionAdapter<T> {
@@ -11,7 +13,7 @@ abstract class TrafficConsumptionAdapter<T> {
 
 abstract class TrafficConsumptionCollectorInterface<
         T extends TrafficConsumptionAdapter>
-    implements AnalysisOnDemandCollectorInterface<num, T> {}
+    implements AnalysisOnDemandCollectorInterface<num, T, MemVolUnit> {}
 
 class TrafficConsumptionCollector<T extends TrafficConsumptionAdapter>
     implements TrafficConsumptionCollectorInterface<T> {
@@ -29,5 +31,5 @@ class TrafficConsumptionCollector<T extends TrafficConsumptionAdapter>
   Future<num> collect(T value) async => value.contentLength;
 
   @override
-  String get measurementUnit => 'bytes';
+  MemVolUnit get measurementUnit => MemVolUnit();
 }

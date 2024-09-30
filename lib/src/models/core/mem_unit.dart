@@ -4,17 +4,21 @@
 
 class MemUnit implements Comparable<MemUnit> {
   const MemUnit(this.bytes);
-  factory MemUnit.fromKB(double kb) => MemUnit((kb * 1024).toInt());
-  factory MemUnit.fromMB(double mb) => MemUnit.fromKB(mb * 1024);
-  factory MemUnit.fromGB(double gb) => MemUnit.fromMB(gb * 1024);
+  factory MemUnit.fromKB(double kib) => MemUnit((kib * 1024).toInt());
+  factory MemUnit.fromMB(double mib) => MemUnit.fromKB(mib * 1024);
+  factory MemUnit.fromGB(double gib) => MemUnit.fromMB(gib * 1024);
 
   static const unknown = MemUnit(-1);
 
   final int bytes;
 
-  double get inKB => bytes / 1024;
-  double get inMB => inKB / 1024;
-  double get inGB => inMB / 1024;
+  double get inKB => bytes / 1000;
+  double get inMB => inKB / 1000;
+  double get inGB => inMB / 1000;
+
+  double get inKiB => bytes / 1024;
+  double get inMiB => inKiB / 1024;
+  double get inGiB => inMiB / 1024;
 
   MemUnit operator +(MemUnit other) => MemUnit(bytes + other.bytes);
   MemUnit operator -(MemUnit other) => MemUnit(bytes - other.bytes);

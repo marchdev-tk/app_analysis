@@ -6,13 +6,13 @@ import 'dart:async';
 
 import '../models.dart';
 
-abstract class AnalysisCollectorInterface<T> {
+abstract class AnalysisCollectorInterface<T, U> {
   const AnalysisCollectorInterface._();
 
   Map<DateTime, T> get data;
   void clearData();
 
-  String get measurementUnit;
+  U get measurementUnit;
 }
 
 abstract class AnalysisCollectorWithExtremumsInterface<T> {
@@ -21,15 +21,15 @@ abstract class AnalysisCollectorWithExtremumsInterface<T> {
   Future<Extremum<T>> getExtremum();
 }
 
-abstract class AnalysisPeriodicalCollectorInterface<T>
-    implements AnalysisCollectorInterface<T> {
+abstract class AnalysisPeriodicalCollectorInterface<T, U>
+    implements AnalysisCollectorInterface<T, U> {
   const AnalysisPeriodicalCollectorInterface._();
 
   Future<T> collect();
 }
 
-abstract class AnalysisOnDemandCollectorInterface<T, E>
-    implements AnalysisCollectorInterface<T> {
+abstract class AnalysisOnDemandCollectorInterface<T, E, U>
+    implements AnalysisCollectorInterface<T, U> {
   const AnalysisOnDemandCollectorInterface._();
 
   Future<T> collect(E value);

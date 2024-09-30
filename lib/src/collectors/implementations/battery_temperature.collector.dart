@@ -13,7 +13,7 @@ const kUnknownBatteryTemperature = -1;
 
 abstract class BatteryTemperatureCollectorInterface
     implements
-        AnalysisPeriodicalCollectorInterface<num>,
+        AnalysisPeriodicalCollectorInterface<num, String>,
         AnalysisCollectorWithExtremumsInterface<num> {}
 
 class BatteryTemperatureCollector

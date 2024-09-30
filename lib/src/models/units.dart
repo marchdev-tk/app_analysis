@@ -15,9 +15,9 @@ abstract class AnalysisUnitsInterface implements Encodable {
   String get cpuFrequency;
   String get cpuTemperature;
 
-  String get ramConsumption;
+  MemVolUnit get ramConsumption;
 
-  String get trafficConsumption;
+  MemVolUnit get trafficConsumption;
 }
 
 class AnalysisUnits implements AnalysisUnitsInterface {
@@ -36,8 +36,8 @@ class AnalysisUnits implements AnalysisUnitsInterface {
       batteryTemperature: map['batteryTemperature'],
       cpuFrequency: map['cpuFrequency'],
       cpuTemperature: map['cpuTemperature'],
-      ramConsumption: map['ramConsumption'],
-      trafficConsumption: map['trafficConsumption'],
+      ramConsumption: MemVolUnit(),
+      trafficConsumption: MemVolUnit(),
     );
   }
 
@@ -52,10 +52,10 @@ class AnalysisUnits implements AnalysisUnitsInterface {
   final String cpuTemperature;
 
   @override
-  final String ramConsumption;
+  final MemVolUnit ramConsumption;
 
   @override
-  final String trafficConsumption;
+  final MemVolUnit trafficConsumption;
 
   @override
   Map<String, dynamic> toMap() {
@@ -64,8 +64,6 @@ class AnalysisUnits implements AnalysisUnitsInterface {
       'batteryTemperature': batteryTemperature,
       'cpuFrequency': cpuFrequency,
       'cpuTemperature': cpuTemperature,
-      'ramConsumption': ramConsumption,
-      'trafficConsumption': trafficConsumption,
     };
   }
 

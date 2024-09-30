@@ -14,4 +14,4 @@ export 'src/collectors.dart'
 export 'src/models.dart' hide AnalysisExtremums, AnalysisData, AnalysisInfo;
 export 'src/providers.dart';
 export 'src/storages.dart';
-export 'src/utils.dart';
+export 'src/utils.dart' hide ValueChanged;

@@ -6,6 +6,7 @@ export 'models/core/encodable.dart';
 export 'models/core/extremum.dart';
 export 'models/core/mem_unit.dart';
 export 'models/core/ram_info.dart';
+export 'models/core/mem_vol_unit.dart';
 export 'models/data.dart';
 export 'models/extremums.dart';
 export 'models/info.dart';

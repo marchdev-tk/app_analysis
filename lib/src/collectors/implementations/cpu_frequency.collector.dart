@@ -10,7 +10,7 @@ import '../collector.dart';
 
 abstract class CpuFrequencyCollectorInterface
     implements
-        AnalysisPeriodicalCollectorInterface<List<num>>,
+        AnalysisPeriodicalCollectorInterface<List<num>, String>,
         AnalysisCollectorWithExtremumsInterface<List<num>> {}
 
 class CpuFrequencyCollector implements CpuFrequencyCollectorInterface {
