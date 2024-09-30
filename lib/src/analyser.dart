@@ -54,7 +54,7 @@ class AppAnalyser {
     _cpuTemperature = cpuTemperature ?? CpuTemperatureCollector();
     _ramConsumption = ramConsumption ?? RamConsumptionCollector();
     _trafficConsumption = trafficConsumption ??
-        TrafficConsumptionCollector<RawTrafficConsumptionAdapter>();
+        TrafficConsumptionCollector<TrafficConsumptionAdapter<dynamic>>();
     _storage = storage ?? AnalysisMemoryStorage();
 
     _initialised = true;
@@ -99,7 +99,7 @@ class AppAnalyser {
     return info;
   }
 
-  void collectTraffic(TrafficConsumptionAdapter adapter) {
+  void collectTraffic(TrafficConsumptionAdapter<dynamic> adapter) {
     if (_timer == null || _startedAt == null) {
       return;
     }

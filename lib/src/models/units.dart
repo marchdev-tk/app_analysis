@@ -64,6 +64,8 @@ class AnalysisUnits implements AnalysisUnitsInterface {
       'batteryTemperature': batteryTemperature,
       'cpuFrequency': cpuFrequency,
       'cpuTemperature': cpuTemperature,
+      'ramConsumption': ramConsumption.toString(),
+      'trafficConsumption': trafficConsumption.toString(),
     };
   }
 

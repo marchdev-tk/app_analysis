@@ -28,7 +28,12 @@ class TrafficConsumptionCollector<T extends TrafficConsumptionAdapter>
   void clearData() => _data.clear();
 
   @override
-  Future<MemUnit> collect(T value) async => MemUnit(value.contentLength);
+  Future<MemUnit> collect(T value) async {
+    final volume = MemUnit(value.contentLength);
+    _data[DateTime.now().toUtc()] = volume;
+
+    return volume;
+  }
 
   @override
   MemVolUnit get measurementUnit => MemVolUnit();
