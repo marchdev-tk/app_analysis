@@ -43,7 +43,7 @@ class AnalysisData implements AnalysisDataInterface {
         (key, value) => MapEntry(DateTime.parse(key), RamInfo.fromMap(value)),
       ),
       trafficConsumption: Map<String, int>.from(map['trafficConsumption'])
-      .map((key, value) => MapEntry(DateTime.parse(key), MemUnit(value))),
+          .map((key, value) => MapEntry(DateTime.parse(key), MemUnit(value))),
     );
   }
 

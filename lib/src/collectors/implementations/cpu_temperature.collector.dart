@@ -37,7 +37,7 @@ class CpuTemperatureCollector implements CpuTemperatureCollectorInterface {
   Future<Extremum<num>> getExtremum() async {
     return const Extremum(22, 65);
   }
-  
+
   @override
   String get measurementUnit => '°C';
 }
