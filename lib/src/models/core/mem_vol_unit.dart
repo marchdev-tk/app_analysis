@@ -7,7 +7,7 @@ class MemVolUnit {
   const MemVolUnit._();
   static const _instance = MemVolUnit._();
 
-  String get inBytes => 'B';
+  String get bytes => 'B';
 
   String get inKB => 'KB';
   String get inMB => 'MB';

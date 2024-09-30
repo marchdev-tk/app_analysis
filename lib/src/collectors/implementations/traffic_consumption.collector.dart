@@ -13,22 +13,22 @@ abstract class TrafficConsumptionAdapter<T> {
 
 abstract class TrafficConsumptionCollectorInterface<
         T extends TrafficConsumptionAdapter>
-    implements AnalysisOnDemandCollectorInterface<num, T, MemVolUnit> {}
+    implements AnalysisOnDemandCollectorInterface<MemUnit, T, MemVolUnit> {}
 
 class TrafficConsumptionCollector<T extends TrafficConsumptionAdapter>
     implements TrafficConsumptionCollectorInterface<T> {
   TrafficConsumptionCollector();
 
-  final Map<DateTime, num> _data = {};
+  final Map<DateTime, MemUnit> _data = {};
 
   @override
-  Map<DateTime, num> get data => Map.unmodifiable(_data);
+  Map<DateTime, MemUnit> get data => Map.unmodifiable(_data);
 
   @override
   void clearData() => _data.clear();
 
   @override
-  Future<num> collect(T value) async => value.contentLength;
+  Future<MemUnit> collect(T value) async => MemUnit(value.contentLength);
 
   @override
   MemVolUnit get measurementUnit => MemVolUnit();

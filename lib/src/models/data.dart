@@ -17,7 +17,7 @@ abstract class AnalysisDataInterface implements Encodable {
 
   Map<DateTime, RamInfo> get ramConsumption;
 
-  Map<DateTime, num> get trafficConsumption;
+  Map<DateTime, MemUnit> get trafficConsumption;
 }
 
 class AnalysisData implements AnalysisDataInterface {
@@ -42,7 +42,8 @@ class AnalysisData implements AnalysisDataInterface {
           Map<String, Map<String, dynamic>>.from(map['ramConsumption']).map(
         (key, value) => MapEntry(DateTime.parse(key), RamInfo.fromMap(value)),
       ),
-      trafficConsumption: _parseMap(map['trafficConsumption']),
+      trafficConsumption: Map<String, int>.from(map['trafficConsumption'])
+      .map((key, value) => MapEntry(DateTime.parse(key), MemUnit(value))),
     );
   }
 
@@ -74,7 +75,7 @@ class AnalysisData implements AnalysisDataInterface {
   final Map<DateTime, RamInfo> ramConsumption;
 
   @override
-  final Map<DateTime, num> trafficConsumption;
+  final Map<DateTime, MemUnit> trafficConsumption;
 
   @override
   Map<String, dynamic> toMap() {
@@ -86,7 +87,8 @@ class AnalysisData implements AnalysisDataInterface {
       'cpuTemperature': _toMap(cpuTemperature),
       'ramConsumption': ramConsumption
           .map((key, value) => MapEntry(key.toIso8601String(), value.toMap())),
-      'trafficConsumption': _toMap(trafficConsumption),
+      'trafficConsumption': trafficConsumption
+          .map((key, value) => MapEntry(key.toIso8601String(), value.bytes)),
     };
   }
 
