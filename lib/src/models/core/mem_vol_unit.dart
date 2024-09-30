@@ -16,4 +16,7 @@ class MemVolUnit {
   String get inKiB => 'KiB';
   String get inMiB => 'MiB';
   String get inGiB => 'GiB';
+
+  @override
+  String toString() => bytes;
 }
