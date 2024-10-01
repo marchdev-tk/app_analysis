@@ -27,10 +27,6 @@ class AppAnalyser {
   AnalysisStoragePurgeInterface get storage => _storage;
 
   bool _initialised = false;
-  Timer? _timer;
-  DateTime? _startedAt;
-  AnalysisInfo? _info;
-
   void initialise({
     ValueChanged<AnalysisDataInterface>? onDataCollected,
     Duration measurementFrequency = const Duration(seconds: 5),
@@ -60,6 +56,12 @@ class AppAnalyser {
     _initialised = true;
   }
 
+  set onDataCollected(ValueChanged<AnalysisDataInterface> callback) =>
+      _onDataCollected = callback;
+
+  Timer? _timer;
+  DateTime? _startedAt;
+  AnalysisInfo? _info;
   Future<AnalysisInfoInterface> start() async {
     if (_timer != null || _startedAt != null) {
       throw AnalysisInProgressException();
