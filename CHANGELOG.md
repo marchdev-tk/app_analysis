@@ -1,5 +1,10 @@
 # Changelog
 
+# 0.2.3
+
+* Added separate `AppAnalyser.onDataCollected` setter for more flexibility
+* Implemented for every data type `hashCode` and `equals`
+
 # 0.2.2
 
 * Set Dart constraint to `>=3.3.0`
