@@ -6,7 +6,7 @@ issue_tracker: https://github.com/marchdev-tk/app_analysis/issues
 description: Package that provides an ability to track device stats, including CPU/RAM/Battery/Traffic.
 
 environment:
-  sdk: '>=2.18.6 <4.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -18,6 +18,7 @@ dependencies:
   flinq: ^2.0.2
   cross_platform: ^3.0.1
   path_provider: ^2.0.15
+  http_parser: ^4.0.2
 
   # analysis
   battery_info: ^1.1.1

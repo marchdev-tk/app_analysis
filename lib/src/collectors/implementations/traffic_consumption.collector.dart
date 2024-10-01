@@ -2,13 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:app_analysis/app_analysis.dart';
 
 import '../collector.dart';
 
 abstract class TrafficConsumptionAdapter<T> {
   T get value;
-  int get contentLength;
+  FutureOr<int> get contentLength;
 }
 
 abstract class TrafficConsumptionCollectorInterface<
@@ -29,7 +31,7 @@ class TrafficConsumptionCollector<T extends TrafficConsumptionAdapter>
 
   @override
   Future<MemUnit> collect(T value) async {
-    final volume = MemUnit(value.contentLength);
+    final volume = MemUnit(await value.contentLength);
     _data[DateTime.now().toUtc()] = volume;
 
     return volume;

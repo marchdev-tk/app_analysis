@@ -2,21 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
+import 'dart:async';
 
-import '../traffic_consumption.collector.dart';
+import 'package:app_analysis/app_analysis.dart';
 
 class HttpClientRequestResponse {
   const HttpClientRequestResponse(this.request, this.response);
 
-  final HttpClientRequest request;
-  final HttpClientResponse response;
+  final HttpClientRequestExtended request;
+  final HttpClientResponseExtended response;
 
-  int get totalLength =>
-      request.headers.contentLength +
-      request.contentLength +
-      response.headers.contentLength +
-      response.contentLength;
+  FutureOr<int> get totalLength async =>
+      request.totalContentLength + await response.totalContentLength;
 }
 
 class HttpClientTrafficConsumptionAdapter
@@ -27,5 +24,5 @@ class HttpClientTrafficConsumptionAdapter
   final HttpClientRequestResponse value;
 
   @override
-  int get contentLength => value.totalLength;
+  FutureOr<int> get contentLength => value.totalLength;
 }

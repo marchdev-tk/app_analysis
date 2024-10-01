@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:app_analysis/app_analysis.dart';
@@ -76,6 +77,25 @@ class _HomePageState extends State<HomePage> {
                 setState(() {});
               },
               child: const Text('Stop Analysis'),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButton(
+              onPressed: () async {
+                final rq = await HttpClient().getUrl(
+                  Uri.parse('https://dummy-json.mock.beeceptor.com/continents'),
+                );
+                final rs = await rq.close();
+                AppAnalyser().collectTraffic(
+                  HttpClientTrafficConsumptionAdapter(
+                    HttpClientRequestResponse(rq.toExtended(), rs.toExtended()),
+                  ),
+                );
+                setState(() {});
+              },
+              child: const Text('Make Dummy HttpClient Request'),
             ),
           ),
           const SizedBox(height: 16),

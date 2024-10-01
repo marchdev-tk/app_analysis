@@ -9,5 +9,6 @@ export 'collectors/implementations/cpu_frequency.collector.dart';
 export 'collectors/implementations/cpu_temperature.collector.dart';
 export 'collectors/implementations/ram_consumption.collector.dart';
 export 'collectors/implementations/traffic_consumption.collector.dart';
-export 'collectors/implementations/trafic_consumption/http_client.adapter.dart';
+export 'collectors/implementations/trafic_consumption/http_client/http_client.adapter.dart';
+export 'collectors/implementations/trafic_consumption/http_client/http_client.extension.dart';
 export 'collectors/implementations/trafic_consumption/raw.adapter.dart';

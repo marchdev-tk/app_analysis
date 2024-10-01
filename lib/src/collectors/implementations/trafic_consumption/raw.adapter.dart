@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
+
 import '../traffic_consumption.collector.dart';
 
 class RawTrafficConsumptionAdapter implements TrafficConsumptionAdapter<int> {
@@ -11,5 +13,5 @@ class RawTrafficConsumptionAdapter implements TrafficConsumptionAdapter<int> {
   final int value;
 
   @override
-  int get contentLength => value;
+  FutureOr<int> get contentLength => value;
 }
