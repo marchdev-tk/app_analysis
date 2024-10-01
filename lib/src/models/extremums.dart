@@ -69,4 +69,20 @@ class AnalysisExtremums implements AnalysisExtremumsInterface {
 
   @override
   String toString() => json.encode(toMap());
+
+  @override
+  int get hashCode =>
+      batteryLevel.hashCode ^
+      batteryTemperature.hashCode ^
+      cpuFrequency.hashCode ^
+      cpuTemperature.hashCode ^
+      ramConsumption.hashCode;
+
+  @override
+  bool operator ==(covariant AnalysisExtremums other) =>
+      batteryLevel == other.batteryLevel &&
+      batteryTemperature == other.batteryTemperature &&
+      cpuFrequency == other.cpuFrequency &&
+      cpuTemperature == other.cpuTemperature &&
+      ramConsumption == other.ramConsumption;
 }

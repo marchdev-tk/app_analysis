@@ -41,4 +41,13 @@ class RamInfo implements Encodable {
       'available': available.bytes,
     };
   }
+
+  @override
+  int get hashCode => total.hashCode ^ used.hashCode ^ available.hashCode;
+
+  @override
+  bool operator ==(covariant RamInfo other) =>
+      total == other.total &&
+      used == other.used &&
+      available == other.available;
 }

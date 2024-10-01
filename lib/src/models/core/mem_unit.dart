@@ -27,4 +27,10 @@ class MemUnit implements Comparable<MemUnit> {
 
   @override
   int compareTo(MemUnit other) => bytes.compareTo(other.bytes);
+
+  @override
+  int get hashCode => bytes.hashCode;
+
+  @override
+  bool operator ==(covariant MemUnit other) => bytes == other.bytes;
 }

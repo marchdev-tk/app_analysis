@@ -106,4 +106,22 @@ class AnalysisInfo implements AnalysisInfoInterface {
 
   @override
   String toString() => json.encode(toMap());
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      startedAt.hashCode ^
+      endedAt.hashCode ^
+      data.hashCode ^
+      extremums.hashCode ^
+      units.hashCode;
+
+  @override
+  bool operator ==(covariant AnalysisInfo other) =>
+      id == other.id &&
+      startedAt == other.startedAt &&
+      endedAt == other.endedAt &&
+      data == other.data &&
+      extremums == other.extremums &&
+      units == other.units;
 }

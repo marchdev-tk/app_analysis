@@ -94,4 +94,22 @@ class AnalysisData implements AnalysisDataInterface {
 
   @override
   String toString() => json.encode(toMap());
+
+  @override
+  int get hashCode =>
+      MdHash.map(batteryLevel) ^
+      MdHash.map(batteryTemperature) ^
+      MdHash.map(cpuFrequency) ^
+      MdHash.map(cpuTemperature) ^
+      MdHash.map(ramConsumption) ^
+      MdHash.map(trafficConsumption);
+
+  @override
+  bool operator ==(covariant AnalysisData other) =>
+      MdEquals.map(batteryLevel, other.batteryLevel) &&
+      MdEquals.map(batteryTemperature, other.batteryTemperature) &&
+      MdEquals.map(cpuFrequency, other.cpuFrequency) &&
+      MdEquals.map(cpuTemperature, other.cpuTemperature) &&
+      MdEquals.map(ramConsumption, other.ramConsumption) &&
+      MdEquals.map(trafficConsumption, other.trafficConsumption);
 }

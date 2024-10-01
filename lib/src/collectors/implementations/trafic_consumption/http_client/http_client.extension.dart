@@ -9,6 +9,8 @@ import 'dart:typed_data';
 
 import 'package:http_parser/http_parser.dart';
 
+// TODO: move into separate package
+
 extension HttpClientRequestExtension on HttpClientRequest {
   HttpClientRequestExtended toExtended() => HttpClientRequestExtended(this);
 }

@@ -71,4 +71,18 @@ class AnalysisUnits implements AnalysisUnitsInterface {
 
   @override
   String toString() => json.encode(toMap());
+
+  @override
+  int get hashCode =>
+      batteryLevel.hashCode ^
+      batteryTemperature.hashCode ^
+      cpuFrequency.hashCode ^
+      cpuTemperature.hashCode;
+
+  @override
+  bool operator ==(covariant AnalysisUnits other) =>
+      batteryLevel == other.batteryLevel &&
+      batteryTemperature == other.batteryTemperature &&
+      cpuFrequency == other.cpuFrequency &&
+      cpuTemperature == other.cpuTemperature;
 }

@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'encodable.dart';
+import 'package:app_analysis/app_analysis.dart';
 
 class Extremum<T> implements Encodable {
   const Extremum(this.min, this.max);
@@ -32,4 +32,23 @@ class Extremum<T> implements Encodable {
 
   @override
   String toString() => json.encode(toMap());
+
+  @override
+  int get hashCode {
+    if (T is List) {
+      return MdHash.list(min as List) ^ MdHash.list(max as List);
+    }
+
+    return min.hashCode ^ max.hashCode;
+  }
+
+  @override
+  bool operator ==(covariant Extremum<T> other) {
+    if (T is List) {
+      return MdEquals.list(min as List, other.min as List) &&
+          MdEquals.list(max as List, other.max as List);
+    }
+
+    return min == other.min && max == other.max;
+  }
 }
