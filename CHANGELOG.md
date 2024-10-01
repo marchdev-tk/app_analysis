@@ -1,5 +1,11 @@
 # Changelog
 
+# 0.2.2
+
+* Set Dart constraint to `>=3.3.0`
+* Fixed `HttpClientTrafficConsumptionAdapter`
+* Added to example dummy request 
+
 # 0.2.1
 
 * Changed for `TrafficConsumptionCollectorInterface` collectable type from `num` to `MemUnit`
