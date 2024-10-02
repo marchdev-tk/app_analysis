@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.2.5
+
+* Adjusted extremums and units due to additional data views
+
 # 0.2.4
 
 * Added getters of `AnalysisDataInterface` different views, such as:
