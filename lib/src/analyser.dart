@@ -161,8 +161,6 @@ class AppAnalyser {
       batteryTemperature: _batteryTemperature.measurementUnit,
       cpuFrequency: _cpuFrequency.measurementUnit,
       cpuTemperature: _cpuTemperature.measurementUnit,
-      ramConsumption: _ramConsumption.measurementUnit,
-      trafficConsumption: _trafficConsumption.measurementUnit,
     );
   }
 }

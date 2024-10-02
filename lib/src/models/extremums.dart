@@ -13,9 +13,11 @@ abstract class AnalysisExtremumsInterface implements Encodable {
   Extremum<num> get batteryTemperature;
 
   Extremum<List<num>> get cpuFrequency;
+  Extremum<num> get cpuUsagePercents;
   Extremum<num> get cpuTemperature;
 
   Extremum<MemUnit> get ramConsumption;
+  Extremum<num> get ramConsumptionPercents;
 }
 
 class AnalysisExtremums implements AnalysisExtremumsInterface {
@@ -51,19 +53,27 @@ class AnalysisExtremums implements AnalysisExtremumsInterface {
   @override
   final Extremum<List<num>> cpuFrequency;
   @override
+  Extremum<num> get cpuUsagePercents => const Extremum(0, 100);
+  @override
   final Extremum<num> cpuTemperature;
 
   @override
   final Extremum<MemUnit> ramConsumption;
+  @override
+  Extremum<num> get ramConsumptionPercents => const Extremum(0, 100);
 
   @override
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({bool full = false}) {
     return {
       'batteryLevel': batteryLevel.toMap(),
       'batteryTemperature': batteryTemperature.toMap(),
       'cpuFrequency': cpuFrequency.toMap((value) => value),
       'cpuTemperature': cpuTemperature.toMap(),
       'ramConsumption': ramConsumption.toMap((value) => value.bytes),
+      if (full) ...{
+        'cpuUsagePercents': cpuUsagePercents.toMap(),
+        'ramConsumptionPercents': ramConsumptionPercents.toMap(),
+      }
     };
   }
 

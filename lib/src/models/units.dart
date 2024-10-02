@@ -13,9 +13,11 @@ abstract class AnalysisUnitsInterface implements Encodable {
   String get batteryTemperature;
 
   String get cpuFrequency;
+  String get cpuUsagePercents;
   String get cpuTemperature;
 
   MemVolUnit get ramConsumption;
+  String get ramConsumptionPercents;
 
   MemVolUnit get trafficConsumption;
 }
@@ -26,8 +28,6 @@ class AnalysisUnits implements AnalysisUnitsInterface {
     required this.batteryTemperature,
     required this.cpuFrequency,
     required this.cpuTemperature,
-    required this.ramConsumption,
-    required this.trafficConsumption,
   });
 
   factory AnalysisUnits.fromMap(Map<String, dynamic> map) {
@@ -36,8 +36,6 @@ class AnalysisUnits implements AnalysisUnitsInterface {
       batteryTemperature: map['batteryTemperature'],
       cpuFrequency: map['cpuFrequency'],
       cpuTemperature: map['cpuTemperature'],
-      ramConsumption: MemVolUnit(),
-      trafficConsumption: MemVolUnit(),
     );
   }
 
@@ -49,23 +47,31 @@ class AnalysisUnits implements AnalysisUnitsInterface {
   @override
   final String cpuFrequency;
   @override
+  String get cpuUsagePercents => '%';
+  @override
   final String cpuTemperature;
 
   @override
-  final MemVolUnit ramConsumption;
+  MemVolUnit get ramConsumption => MemVolUnit();
+  @override
+  String get ramConsumptionPercents => '%';
 
   @override
-  final MemVolUnit trafficConsumption;
+  MemVolUnit get trafficConsumption => MemVolUnit();
 
   @override
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({bool full = false}) {
     return {
       'batteryLevel': batteryLevel,
       'batteryTemperature': batteryTemperature,
       'cpuFrequency': cpuFrequency,
       'cpuTemperature': cpuTemperature,
-      'ramConsumption': ramConsumption.toString(),
-      'trafficConsumption': trafficConsumption.toString(),
+      if (full) ...{
+        'cpuUsagePercents': cpuUsagePercents,
+        'ramConsumption': ramConsumption.toString(),
+        'ramConsumptionPercents': ramConsumptionPercents,
+        'trafficConsumption': trafficConsumption.toString(),
+      },
     };
   }
 
