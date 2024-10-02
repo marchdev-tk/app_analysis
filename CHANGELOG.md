@@ -1,5 +1,12 @@
 # Changelog
 
+# 0.2.4
+
+* Added getters of `AnalysisDataInterface` different views, such as:
+  * `getCpuUsagePercents`
+  * `ramConsumptionPercents`
+  * `trafficConsumptionCumulative`
+
 # 0.2.3
 
 * Added separate `AppAnalyser.onDataCollected` setter for more flexibility
