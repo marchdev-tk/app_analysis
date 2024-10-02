@@ -13,11 +13,14 @@ abstract class AnalysisDataInterface implements Encodable {
   Map<DateTime, num> get batteryTemperature;
 
   Map<DateTime, List<num>> get cpuFrequency;
+  Map<DateTime, List<num>> getCpuUsagePercents(Extremum<List<num>> extremum);
   Map<DateTime, num> get cpuTemperature;
 
   Map<DateTime, RamInfo> get ramConsumption;
+  Map<DateTime, num> get ramConsumptionPercents;
 
   Map<DateTime, MemUnit> get trafficConsumption;
+  Map<DateTime, MemUnit> get trafficConsumptionCumulative;
 }
 
 class AnalysisData implements AnalysisDataInterface {
@@ -69,13 +72,45 @@ class AnalysisData implements AnalysisDataInterface {
   @override
   final Map<DateTime, List<num>> cpuFrequency;
   @override
+  Map<DateTime, List<num>> getCpuUsagePercents(Extremum<List<num>> extremum) {
+    return cpuFrequency.map(
+      (key, value) {
+        var percents = <num>[];
+
+        for (var i = 0; i < value.length; i++) {
+          final biasedValue = value[i] - extremum.min[i];
+          final extremumRange = extremum.max[i] - extremum.min[i];
+          percents.add(biasedValue / extremumRange * 100);
+        }
+
+        return MapEntry(key, percents);
+      },
+    );
+  }
+
+  @override
   final Map<DateTime, num> cpuTemperature;
 
   @override
   final Map<DateTime, RamInfo> ramConsumption;
+  @override
+  Map<DateTime, num> get ramConsumptionPercents => ramConsumption
+      .map((key, value) => MapEntry(key, value.percentUsed * 100));
 
   @override
   final Map<DateTime, MemUnit> trafficConsumption;
+  @override
+  Map<DateTime, MemUnit> get trafficConsumptionCumulative {
+    final cumulativeData = <DateTime, MemUnit>{};
+
+    var sum = const MemUnit(0);
+    for (var key in trafficConsumption.keys) {
+      cumulativeData[key] = sum + trafficConsumption[key]!;
+      sum = cumulativeData[key]!;
+    }
+
+    return cumulativeData;
+  }
 
   @override
   Map<String, dynamic> toMap() {
