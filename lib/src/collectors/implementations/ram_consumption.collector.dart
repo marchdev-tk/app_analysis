@@ -32,6 +32,8 @@ class RamConsumptionCollector implements RamConsumptionCollectorInterface {
     return info;
   }
 
+  // TODO: add to ability to select type of data (alongside with inMiB/inMB inPercents)
+
   /// Retrieves `SAFE` RAM volume range in bytes
   @override
   Future<Extremum<MemUnit>> getExtremum() async {

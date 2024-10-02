@@ -24,6 +24,8 @@ class CpuFrequencyCollector implements CpuFrequencyCollectorInterface {
   @override
   void clearData() => _data.clear();
 
+  // TODO: add to ability to select type of data inMhz/inGhz/inPercents)
+
   @override
   Future<List<num>> collect() async {
     final info = await CpuInfoProvider().currentFrequency;
