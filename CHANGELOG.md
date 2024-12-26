@@ -1,5 +1,10 @@
 # Changelog
 
+# 0.3.0
+
+* Added `BatteryInfoProvider`
+* Removed dependency on `battery_info`
+
 # 0.2.5
 
 * Adjusted extremums and units due to additional data views
