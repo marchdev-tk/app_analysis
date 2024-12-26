@@ -5,7 +5,6 @@
 import 'dart:async';
 
 import 'package:app_analysis/app_analysis.dart';
-import 'package:battery_info/battery_info_plugin.dart';
 
 import '../collector.dart';
 
@@ -31,8 +30,7 @@ class BatteryLevelCollector implements BatteryLevelCollectorInterface {
   Future<num> collect() async {
     ensureOsSupported();
 
-    final info = await BatteryInfoPlugin().androidBatteryInfo;
-    final batteryLevel = info?.batteryLevel ?? kUnknownBatteryLevel;
+    final batteryLevel = await BatteryInfoProvider().chargeLevel;
     _data[DateTime.now().toUtc()] = batteryLevel;
 
     return batteryLevel;

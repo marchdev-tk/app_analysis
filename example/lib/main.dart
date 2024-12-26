@@ -14,7 +14,7 @@ void main() {
 }
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   AnalysisInfoInterface? info;
   String? cpuInfo;
   String? memInfo;
+  String? btrInfo;
 
   String getInfoData() {
     final raw = info?.toMap() ?? {};
@@ -141,6 +142,24 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SelectableText(memInfo ?? '-'),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButton(
+              onPressed: () async {
+                final temperature = await BatteryInfoProvider().temperature;
+                final chargeLevel = await BatteryInfoProvider().chargeLevel;
+                btrInfo = 'Temp: $temperature\n'
+                    'Level: $chargeLevel';
+                setState(() {});
+              },
+              child: const Text('Get Battery Info'),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SelectableText(btrInfo ?? '-'),
           ),
           const SizedBox(height: 24),
         ],

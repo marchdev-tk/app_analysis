@@ -4,13 +4,20 @@
 
 import 'package:app_analysis/app_analysis.dart';
 
-import 'implementations/ram_info.provider.dart';
+import 'implementations/ram_info.android.provider.dart';
 
 class RamInfoProvider {
   factory RamInfoProvider() => _instance;
   RamInfoProvider._();
   static final _instance = RamInfoProvider._();
 
-  Future<RamInfo> get info => RamInfoAndroidProvider().info;
-  MemUnit get minAllowedRam => RamInfoAndroidProvider().minAllowedRam;
+  Future<RamInfo> get info {
+    ensureOsSupported();
+    return RamInfoAndroidProvider().info;
+  }
+
+  MemUnit get minAllowedRam {
+    ensureOsSupported();
+    return RamInfoAndroidProvider().minAllowedRam;
+  }
 }
